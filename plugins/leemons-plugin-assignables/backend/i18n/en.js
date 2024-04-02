@@ -104,7 +104,6 @@ module.exports = {
       description: 'Instructions for the consult of content',
       editor: {
         placeholder: 'You can specify the best way to consult this content...',
-        help: 'Help information visible in the assignment card (preview view)',
       },
     },
     evaluation: {
@@ -150,6 +149,7 @@ module.exports = {
         label: 'Title',
         placeholder: 'Type the title',
       },
+      thumbnail: 'Thumbnail',
     },
     preview: {
       title: 'Preview',

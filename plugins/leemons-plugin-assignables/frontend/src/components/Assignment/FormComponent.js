@@ -178,6 +178,7 @@ export default function Form({
           <Box className={classes.root}>
             <Box className={classes.leftColumn}>
               <Presentation
+                assignable={assignable}
                 localizations={localizations?.presentation}
                 showTitle={showTitle}
                 showThumbnail={showThumbnail}

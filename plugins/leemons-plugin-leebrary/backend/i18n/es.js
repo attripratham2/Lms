@@ -467,4 +467,12 @@ module.exports = {
     paginatorLabel: '/',
     schemaLabel: 'Esquema',
   },
+  assignAsset: {
+    successAlert: 'Recurso asignado correctamente',
+    errorAlert: 'Error al asignar el recurso',
+  },
+  assignableExecution: {
+    information: 'Información',
+    finish: 'Finalizar',
+  },
 };

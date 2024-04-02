@@ -5,6 +5,8 @@ import pMinDelay from 'p-min-delay';
 import { LoadingOverlay } from '@bubbles-ui/components';
 import { useSession } from '@users/session';
 import { goLoginPage } from '@users/navigate';
+import AssignAssetPage from '@leebrary/pages/private/assignables/AssignAssetPage';
+import Execution from '@leebrary/pages/private/assignables/Execution';
 
 const HomePage = loadable(() => pMinDelay(import('./src/pages/private/library/Library'), 500));
 
@@ -14,6 +16,12 @@ export default function Private() {
 
   return (
     <Switch>
+      <Route path={`${path}/assign/:id`}>
+        <AssignAssetPage fallback={<LoadingOverlay visible />} />
+      </Route>
+      <Route path={`${path}/activities/student-detail/:id/:user`}>
+        <Execution />
+      </Route>
       <Route path={`${path}/`}>
         <HomePage session={session} fallback={<LoadingOverlay visible />} />
       </Route>

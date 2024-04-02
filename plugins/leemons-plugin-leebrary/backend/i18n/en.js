@@ -480,4 +480,12 @@ module.exports = {
     paginatorLabel: '/',
     schemaLabel: 'Schema',
   },
+  assignAsset: {
+    successAlert: 'Resource successfully assigned',
+    errorAlert: 'An error occurred while assigning the resource',
+  },
+  assignableExecution: {
+    information: 'Information',
+    finish: 'Finish',
+  },
 };

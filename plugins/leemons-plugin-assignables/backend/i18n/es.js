@@ -104,7 +104,6 @@ module.exports = {
       description: 'Instrucciones para la consulta del contenido',
       editor: {
         placeholder: 'Puedes especificar la mejor manera de consultar este contenido...',
-        help: 'Información de apoyo visible en la tarjeta de asignación (ver vista previa)',
       },
     },
     evaluation: {
@@ -150,6 +149,7 @@ module.exports = {
         label: 'Título',
         placeholder: 'Escribe el título',
       },
+      thumbnail: 'Imagen destacada',
     },
     preview: {
       title: 'Vista previa',

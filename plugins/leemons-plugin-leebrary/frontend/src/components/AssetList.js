@@ -426,7 +426,7 @@ const AssetList = ({
   };
 
   const handleOnAssign = (item) => {
-    history.push(`/private/tasks/library/create?from=leebrary&asset=${item.id}`);
+    history.push(`/private/leebrary/assign/${item.id}`);
   };
 
   const handleOnDelete = (item) => {
