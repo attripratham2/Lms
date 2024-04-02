@@ -475,7 +475,7 @@ module.exports = {
     timeoutAlert: {
       title: 'Maximum time reached',
       message:
-        'the time limit set for this activity has been reached. The last delivery or questions answered have been sent automatically.',
+        'The time limit set for this activity has been reached. The last delivery or questions answered have been sent automatically.',
     },
   },
   evaluationFeedbackComponent: {

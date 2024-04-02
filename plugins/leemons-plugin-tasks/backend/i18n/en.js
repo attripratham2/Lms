@@ -480,6 +480,7 @@ module.exports = {
     },
   },
   task_correction: {
+    action: 'feedback',
     student: {
       submitted_alert: {
         title: 'Activity submitted successfully',
@@ -495,6 +496,7 @@ module.exports = {
       statement: 'Statement',
       curriculum: 'Curriculum',
       development: 'Development',
+      resources: 'Resources',
     },
     teacher: {
       evaluation: 'Evaluation',

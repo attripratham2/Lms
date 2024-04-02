@@ -7,7 +7,6 @@ import { set, uniq } from 'lodash';
 import {
   Box,
   Button,
-  ContextContainer,
   TotalLayoutFooterContainer,
   TotalLayoutStepContainer,
 } from '@bubbles-ui/components';
@@ -118,6 +117,7 @@ export default function Form({
   showMessageForStudents,
   showReport,
   showResponses,
+  hideShowInCalendar,
 
   scrollRef,
 
@@ -248,6 +248,7 @@ export default function Form({
                     error={error}
                     hideMaxTime={hideMaxTime}
                     hideSectionHeaders={hideSectionHeaders}
+                    hideShowInCalendar={hideShowInCalendar}
                   />
                 )}
               />
@@ -320,4 +321,5 @@ Form.propTypes = {
   showMessageForStudents: PropTypes.bool,
   showReport: PropTypes.bool,
   showResponses: PropTypes.bool,
+  hideShowInCalendar: PropTypes.bool,
 };

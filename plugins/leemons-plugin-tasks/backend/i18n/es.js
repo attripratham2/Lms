@@ -469,6 +469,7 @@ module.exports = {
     },
   },
   task_correction: {
+    action: 'feedback',
     student: {
       submitted_alert: {
         title: 'Tarea entregada con éxito',
@@ -484,6 +485,7 @@ module.exports = {
       statement: 'Enunciado',
       curriculum: 'Currículum',
       development: 'Desarrollo',
+      resources: 'Recursos',
     },
     teacher: {
       evaluation: 'Evaluación',
