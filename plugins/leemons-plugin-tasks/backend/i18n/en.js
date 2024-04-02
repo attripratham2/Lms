@@ -490,6 +490,12 @@ module.exports = {
         title: 'Pending evaluation.',
         message: 'When the teacher evaluates your activity, you will receive a notification',
       },
+      not_submitted_alert: {
+        title: 'Activity not submitted',
+      },
+      finished_alert: {
+        title: 'Activity finished',
+      },
 
       submission: 'Submission',
       activity_summary: 'Activity summary',

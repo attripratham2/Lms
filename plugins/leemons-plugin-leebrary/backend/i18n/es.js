@@ -475,4 +475,11 @@ module.exports = {
     information: 'Información',
     finish: 'Finalizar',
   },
+  assignableCorrection: {
+    action: 'Feedback',
+    finished_alert: 'Actividad finalizada',
+    summary: 'Resumen de la actividad',
+    information: 'Información',
+    resources: 'Recursos',
+  },
 };

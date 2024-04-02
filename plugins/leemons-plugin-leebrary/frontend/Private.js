@@ -7,6 +7,7 @@ import { useSession } from '@users/session';
 import { goLoginPage } from '@users/navigate';
 import AssignAssetPage from '@leebrary/pages/private/assignables/AssignAssetPage';
 import Execution from '@leebrary/pages/private/assignables/Execution';
+import Correction from '@leebrary/pages/private/assignables/Correction';
 
 const HomePage = loadable(() => pMinDelay(import('./src/pages/private/library/Library'), 500));
 
@@ -21,6 +22,9 @@ export default function Private() {
       </Route>
       <Route path={`${path}/activities/student-detail/:id/:user`}>
         <Execution />
+      </Route>
+      <Route path={`${path}/activities/correction/:id/:user`}>
+        <Correction />
       </Route>
       <Route path={`${path}/`}>
         <HomePage session={session} fallback={<LoadingOverlay visible />} />

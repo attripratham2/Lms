@@ -472,12 +472,18 @@ module.exports = {
     action: 'feedback',
     student: {
       submitted_alert: {
-        title: 'Tarea entregada con éxito',
-        message: 'Aquí tienes más información sobre tu tarea.',
+        title: 'Actividad entregada con éxito',
+        message: 'Aquí tienes más información sobre tu actividad.',
       },
       pending_evaluation_alert: {
         title: 'Pendiente de evaluación',
         message: 'En cuanto sea evaluada recibirás una notificación.',
+      },
+      not_submitted_alert: {
+        title: 'Tarea no entregada',
+      },
+      finished_alert: {
+        title: 'Actividad finalizada',
       },
 
       submission: 'Entregable',

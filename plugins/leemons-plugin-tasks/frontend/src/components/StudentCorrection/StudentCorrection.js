@@ -1,3 +1,6 @@
+import React, { useMemo, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
+
 import {
   ActivityAccordion,
   ActivityAccordionPanel,
@@ -13,11 +16,11 @@ import {
   Alert,
   Tabs,
   TabPanel,
+  ImageLoader,
 } from '@bubbles-ui/components';
+
 import { ChevRightIcon } from '@bubbles-ui/icons/outline';
 import { useSearchParams } from '@common';
-
-import React, { useMemo, useRef, useState } from 'react';
 import ActivityHeader from '@assignables/components/ActivityHeader';
 import { isEmpty } from 'lodash';
 import useTranslateLoader from '@multilanguage/useTranslateLoader';
@@ -79,14 +82,75 @@ function SubjectTab({ assignation, subject, t }) {
   );
 }
 
+function AlertSection({ assignation, isEvaluated }) {
+  const [t] = useTranslateLoader(prefixPN('task_correction.student'));
+  const params = useSearchParams();
+  const history = useHistory();
+
+  const { instance } = assignation ?? {};
+  const { assignable } = instance ?? {};
+
+  const hasFinished = assignation?.timestamps?.end ?? instance?.finished;
+  const hasSubmission = !!assignable?.submission;
+  const activitySubmitted = !!assignation?.metadata?.submission;
+  const isEvaluable = !!instance?.requiresScoring || !!instance?.allowFeedback;
+
+  if (hasSubmission) {
+    return (
+      <Stack direction="column" spacing="xl">
+        {params.has('fromTimeout') && (
+          <TimeoutAlert
+            onClose={() => {
+              params.delete('fromTimeout');
+
+              history.replace({ search: params.toString() });
+            }}
+          />
+        )}
+
+        {params.has('fromExecution') && activitySubmitted && (
+          <Alert
+            severity="success"
+            title={t('submitted_alert.title')}
+            onClose={() => {
+              params.delete('fromExecution');
+              history.replace({ search: params.toString() });
+            }}
+          >
+            {t('submitted_alert.message')}
+          </Alert>
+        )}
+
+        {!activitySubmitted && (
+          <Alert severity="error" title={t('not_submitted_alert.title')} closeable={false} />
+        )}
+
+        {!isEvaluated && !!isEvaluable && (
+          <Alert severity="warning" title={t('pending_evaluation_alert.title')} closeable={false}>
+            {t('pending_evaluation_alert.message')}
+          </Alert>
+        )}
+      </Stack>
+    );
+  }
+
+  if (hasFinished) {
+    return (
+      <Stack direction="column" spacing="xl">
+        <Alert severity="success" title={t('finished_alert.title')} closeable={false}></Alert>
+      </Stack>
+    );
+  }
+}
+
 export default function StudentCorrection({ assignation }) {
   const [t] = useTranslateLoader(prefixPN('task_correction.student'));
+  const [correctionT] = useTranslateLoader(prefixPN('task_correction'));
   const [buttonsT] = useTranslateLoader(prefixPN('task_realization.buttons'));
 
   const scrollRef = useRef();
   const params = useSearchParams();
   const fromExecution = useMemo(() => params.has('fromExecution'), []);
-  const history = useHistory();
 
   const { instance } = assignation ?? {};
   const { assignable } = instance ?? {};
@@ -102,7 +166,7 @@ export default function StudentCorrection({ assignation }) {
       return assignation?.metadata?.submission?.map((file) => file.id);
     }
     return [];
-  });
+  }, [assignation?.metadata?.submission, assignable?.submission?.type]);
 
   const isEvaluated = useMemo(
     () => !!assignation?.grades?.find((grade) => grade.type === 'main'),
@@ -117,11 +181,13 @@ export default function StudentCorrection({ assignation }) {
       Header={
         <ActivityHeader
           instance={instance}
+          action={correctionT('action')}
           showClass
           showRole
           showEvaluationType
           showTime
           showDeadline
+          showStatusBadge
         />
       }
     >
@@ -151,36 +217,7 @@ export default function StudentCorrection({ assignation }) {
         >
           <Box className={classes.root}>
             <Stack direction="column" spacing="xl">
-              {params.has('fromTimeout') && (
-                <TimeoutAlert
-                  onClose={() => {
-                    params.delete('fromTimeout');
-
-                    history.replace({ search: params.toString() });
-                  }}
-                />
-              )}
-              {params.has('fromExecution') && (
-                <Alert
-                  severity="success"
-                  title={t('submitted_alert.title')}
-                  onClose={() => {
-                    params.delete('fromExecution');
-                    history.replace({ search: params.toString() });
-                  }}
-                >
-                  {t('submitted_alert.message')}
-                </Alert>
-              )}
-              {!isEvaluated && (
-                <Alert
-                  severity="warning"
-                  title={t('pending_evaluation_alert.title')}
-                  closeable={false}
-                >
-                  {t('pending_evaluation_alert.message')}
-                </Alert>
-              )}
+              <AlertSection assignation={assignation} isEvaluated={isEvaluated} />
 
               {!!isEvaluated &&
                 (subjects?.length > 1 ? (
@@ -230,6 +267,20 @@ export default function StudentCorrection({ assignation }) {
                       <HtmlText>{assignable?.statement}</HtmlText>
                     </Box>
                   </ActivityAccordionPanel>
+                  {!isEmpty(assignable?.resources) && (
+                    <ActivityAccordionPanel
+                      label={t('resources')}
+                      icon={
+                        <Box sx={{ position: 'relative', width: 22, height: 22 }}>
+                          <ImageLoader src="/public/leebrary/media-files.svg" color="#7F7F7F" />
+                        </Box>
+                      }
+                    >
+                      <Box className={classes?.accordionPanel}>
+                        <AssetEmbedList assets={assignable.resources} />
+                      </Box>
+                    </ActivityAccordionPanel>
+                  )}
                   {!isEmpty(instance?.curriculum) && (
                     <ActivityAccordionPanel label={t('curriculum')} icon={<CurriculumIcon />}>
                       <Box className={classes?.accordionPanel}>
@@ -259,3 +310,18 @@ export default function StudentCorrection({ assignation }) {
     </TotalLayoutContainer>
   );
 }
+
+StudentCorrection.propTypes = {
+  assignation: PropTypes.object.isRequired,
+};
+
+AlertSection.propTypes = {
+  assignation: PropTypes.object.isRequired,
+  isEvaluated: PropTypes.bool.isRequired,
+};
+
+SubjectTab.propTypes = {
+  assignation: PropTypes.object.isRequired,
+  subject: PropTypes.string.isRequired,
+  t: PropTypes.func.isRequired,
+};
